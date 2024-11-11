@@ -7,6 +7,8 @@ use DB;
 use App\Models\Lecture;
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\UserProgress;
+use Illuminate\Support\Facades\Session;
 
 class LecturesController extends Controller
 {
@@ -17,6 +19,33 @@ class LecturesController extends Controller
         $course = $lecture->chapter->course;
         return view('lectures.LectureContent', compact('lecture','course','chapter')); 
     }
+    public function markAsCompleted($id)
+    {
+        // Lấy thông tin bài giảng
+        $lecture = Lecture::findOrFail($id);
+        
+        // Kiểm tra nếu bài giảng đã được đánh dấu là hoàn thành
+        $userProgress = UserProgress::where('users_id', Session::get('user_id'))
+                                    ->where('lectures_id', $lecture->id)
+                                    ->first();
+        
+        if ($userProgress) {
+            // Nếu đã có thông tin tiến độ, cập nhật trạng thái là "Completed"
+            $userProgress->status = 'Completed';
+            $userProgress->save();
+        } else {
+            // Nếu chưa có thông tin tiến độ, tạo mới một bản ghi với trạng thái "Completed"
+            UserProgress::create([
+                'users_id' => Session::get('user_id'),
+                'lectures_id' => $lecture->id,
+                'status' => 'Completed',
+                'progress' => 100, // Tiến độ 100% khi hoàn thành
+            ]);
+        }
+
+        return redirect()->back()->with('message', 'Bài giảng đã hoàn thành.');
+    }
+
 
     //Admin view
     public function all_lectures(){

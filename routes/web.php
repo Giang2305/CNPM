@@ -36,9 +36,16 @@ Route::post('/profile/update/{id}', [StudentsController::class, 'update_profile'
 //Courses:
 Route::get('/courses', [CoursesController::class, 'index']);
 Route::get('/courses/{id}', [CoursesController::class, 'detail']);
+Route::post('/courses/{id}/register', [CoursesController::class, 'registerCourse'])->name('courses.register');
 
 //Lecture Content:
 Route::get('/lecture/{id}', [LecturesController::class, 'show'])->name('lectures.show');
+
+// routes/web.php
+Route::post('/lectures/{id}/complete', [LecturesController::class, 'markAsCompleted'])->name('lectures.complete');
+
+Route::post('/exercise/{exerciseId}/complete', [UserProgressController::class, 'markExerciseAsCompleted']);
+
 
 //Admin Dashboard:
     Route::post('admin/login', [LoginController::class, 'login'])->name('admin.login'); 
@@ -82,6 +89,8 @@ Route::get('/lecture/{id}', [LecturesController::class, 'show'])->name('lectures
         Route::get('/admin/exercises/edit/{id}', [ExercisesController::class, 'show_edit_exercise'])->name('edit_exercise');
         Route::post('/admin/exercises/edit/save/{id}', [ExercisesController::class, 'edit_exercise'])->name('update_exercise');
         Route::delete('/admin/show_exercises/delete/{id}', [ExercisesController::class, 'delete_exercise'])->name('delete_exercise');
+    //Progress
+        Route::get('student/{id}/progress', [StudentsController::class, 'showStudentProgress'])->name('show_progress');
 
 /*Route::prefix('Admin')->middleware(['auth', 'auth.Admin'])->group(function(){
     //Courses Router

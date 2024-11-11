@@ -29,6 +29,12 @@ class User extends Authenticatable
     public function student(): HasOne {
         return $this->hasOne(Students::class, 'id', 'linked_id');
     }
+    public function registeredCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_user')
+                    ->withPivot('progress')
+                    ->withTimestamps();
+    }
      /**
     use HasApiTokens, HasFactory, Notifiable;
 

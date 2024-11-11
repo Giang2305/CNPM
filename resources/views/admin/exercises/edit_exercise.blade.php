@@ -21,7 +21,7 @@
     <div class="card shadow-sm p-4">
         <h2 class="mb-4 text-center">Sửa bài tập</h2>
 
-        <form action="{{ route('update_exercise',  $exercise->id) }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form action="{{ route('update_exercise',  $exercise->id) }}" method="POST" enctype="multipart/form-data" >
             @csrf
             <div class="row mb-3">
                 <div class="col-md-6">

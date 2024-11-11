@@ -6,12 +6,12 @@
     <div class="card shadow-sm p-4">
         <h2 class="mb-4 text-center">Tạo bài tập mới</h2>
 
-        <form action="{{ route('save_exercises') }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form action="{{ route('save_exercises') }}" method="POST" enctype="multipart/form-data" >
             @csrf
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="title" class="form-label">Tên bài tập</label>
-                    <input type="text" class="form-control" id="title" name="title" style="border: 1px solid black; border-radius: 10px;" required>
+                    <input type="text" class="form-control" id="title" name="title" required style="border: 1px solid black; border-radius: 10px;">
                 </div>
                 <div class="col-md-6">
                     <label for="lecture_id" class="form-label">Bài giảng</label>

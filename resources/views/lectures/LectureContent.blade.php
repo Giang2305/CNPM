@@ -21,77 +21,78 @@
         <div>
             <img style="border-radius: 2rem;" src="{{asset('public/images/' . $course->Image) }}" alt="Thư viện chuẩn C++" class="img-fluid " >
         </div>
-        <button id="toggle-theme" class="btn" style="padding: 0px 0px 0px -100px"><i class="fa-brands fa-medapps fa-2xl"></i></button>
     </div>
 </div>
 <div class="container-fluid p-3">
     <div class="row">  
-     <div class="col-lg-9"  >
-        <h1>Bài {{ $lecture->lecture_number }}: {{ $lecture->title }}</h1>
-        <p>Loại: <strong>{{ $lecture->type }}</strong></p>
-        @if ($lecture->type === 'Video')
-            <div class="video-container">
-                <video controls width="100%" height="600px">
-                    <source src="{{ asset('/public/video_url/' . $lecture->video_url) }}" type="video/mp4">
-                    Trình duyệt của bạn không hỗ trợ phát video.
-                </video>
-            </div>
-        @elseif ($lecture->type === 'File')
-            <iframe 
-                src="{{ asset('/public/lectureUrl/' . $lecture->content_url) }}" 
-                width="100%" 
-                height="600px" 
-                style="border: none;">
-            </iframe>
-        @elseif ($lecture->type === 'Text')
-            <div class="text-content">
-                <p>{{ $lecture->text_content }}</p>
-            </div>
-        @endif
-
-        <!--<p>Thời lượng: {{ $lecture->duration ?? 'N/A' }}</p>-->
-    </div>
-
-
-    <div class="col-lg-3 accordion" id="courseAccordion">
-        <h1>Bài giảng khác:</h1>
-        @foreach ($course->chapters as $chapter)
-            <div class="card">
-                <div class="card-header" id="heading-{{ $chapter->id }}">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link {{ $chapter->lectures->contains('id', $lecture->id) ? 'active bg-gradient-primary text-danger' : '' }}" type="button" data-toggle="collapse" 
-                            data-target="#collapse-{{ $chapter->id }}" 
-                            aria-expanded="{{ $loop->first ? 'true' : 'false' }}" 
-                            aria-controls="collapse-{{ $chapter->id }}"> {{ $chapter->title }} ({{ $chapter->lectures->count() }} bài giảng)
-                        </button>
-                    </h5>
+         <div class="col-lg-9"  >
+            <h1>Bài {{ $lecture->lecture_number }}: {{ $lecture->title }}</h1>
+            <p>Loại: <strong>{{ $lecture->type }}</strong></p>
+            @if ($lecture->type === 'Video')
+                <div class="video-container">
+                    <video controls width="100%" height="600px">
+                        <source src="{{ asset('/public/video_url/' . $lecture->video_url) }}" type="video/mp4">
+                        Trình duyệt của bạn không hỗ trợ phát video.
+                    </video>
                 </div>
+            @elseif ($lecture->type === 'File')
+                <iframe 
+                    src="{{ asset('/public/lectureUrl/' . $lecture->content_url) }}" 
+                    width="100%" 
+                    height="600px" 
+                    style="border: none;">
+                </iframe>
+            @elseif ($lecture->type === 'Text')
+                <div class="text-content">
+                    <p>{{ $lecture->text_content }}</p>
+                </div>
+            @endif
 
-                <div id="collapse-{{ $chapter->id }}" 
-                    class="collapse {{ $chapter->lectures->contains('id', $lecture->id) ? 'show' : '' }}" 
-                    aria-labelledby="heading-{{ $chapter->id }}" 
-                    data-parent="#courseAccordion">
-                    <div class="card-body">
-                        <ul class="list-group">
-                            @foreach ($chapter->lectures as $lec)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{{ route('lectures.show', $lec->id) }}" 
-                                       class="{{ $lec->id == $lecture->id ? 'active bg-gradient-primary text-danger' : '' }}" style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                        Bài {{ $lec->lecture_number }}: {{ $lec->title }}
-                                        <span class="badge badge-primary badge-pill">
-                                            {{ $lec->duration }} phút
-                                        </span>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
+            <!-- Form để đánh dấu bài giảng là hoàn thành -->
+            <form action="{{ route('lectures.complete', $lecture->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-success mt-3">Hoàn thành bài giảng</button>
+            </form>
+
+        </div>
+
+        <div class="col-lg-3 accordion" id="courseAccordion">
+            <h1>Bài giảng khác:</h1>
+            @foreach ($course->chapters as $chapter)
+                <div class="card">
+                    <div class="card-header" id="heading-{{ $chapter->id }}">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link {{ $chapter->lectures->contains('id', $lecture->id) ? 'active bg-gradient-primary text-danger' : '' }}" type="button" data-toggle="collapse" 
+                                data-target="#collapse-{{ $chapter->id }}" 
+                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}" 
+                                aria-controls="collapse-{{ $chapter->id }}"> {{ $chapter->title }} ({{ $chapter->lectures->count() }} bài giảng)
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapse-{{ $chapter->id }}" 
+                        class="collapse {{ $chapter->lectures->contains('id', $lecture->id) ? 'show' : '' }}" 
+                        aria-labelledby="heading-{{ $chapter->id }}" 
+                        data-parent="#courseAccordion">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                @foreach ($chapter->lectures as $lec)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="{{ route('lectures.show', $lec->id) }}" 
+                                           class="{{ $lec->id == $lecture->id ? 'active bg-gradient-primary text-danger' : '' }}" style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            Bài {{ $lec->lecture_number }}: {{ $lec->title }}
+                                            <span class="badge badge-primary badge-pill">
+                                                {{ $lec->duration }} phút
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 </div>
-</div>
-
-
 @endsection

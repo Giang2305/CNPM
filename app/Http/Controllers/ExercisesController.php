@@ -9,7 +9,30 @@ use DB;
 
 class ExercisesController extends Controller
 {
-    //Admin View
+//User View
+    public function show($id){
+        $exercise = Exercises::findOrFail($id);
+        $chapter = $lecture->chapter;
+        $course = $lecture->chapter->course;
+        return view('lectures.LectureContent', compact('lecture','course','chapter')); 
+    }
+
+    public function completeExercise($exerciseId)
+    {
+        $userId = auth()->id();
+        $lectureId = Exercise::find($exerciseId)->lecture_id;
+        $courseId = Lecture::find($lectureId)->chapter->course_id;
+
+        UserProgress::updateOrCreate(
+            ['users_id' => $userId, 'lectures_id' => $lectureId, 'courses_id' => $courseId],
+            ['progress' => 100, 'status' => 'Completed']
+        );
+
+        return response()->json(['message' => 'Bạn đã hoàn thành bài tập này']);
+    }
+
+
+//Admin View
     public function all_exercises(){
         $all_exercises = Exercises::with('lecture')->get(); // Lấy bài tập cùng thông tin bài giảng
         return view('admin.exercises.show_exercises', compact('all_exercises'));
@@ -33,7 +56,7 @@ class ExercisesController extends Controller
             'created_at' => now(),
         ];
 
-        // Xử lý file nếu có
+        // Xử lý file
         if ($request->hasFile('file_path')) {
             $file = $request->file('file_path');
             $fileName = time() . '_' . $file->getClientOriginalName();

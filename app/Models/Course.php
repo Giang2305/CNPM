@@ -19,4 +19,9 @@ class Course extends Model
     {
         return $this->with('chapters.lectures')->get();
     }
+    public function userProgress()
+    {
+        return $this->hasMany(UserProgress::class, 'courses_id', 'id');
+    }
+
 }

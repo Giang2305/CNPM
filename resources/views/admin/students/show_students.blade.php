@@ -28,7 +28,7 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Start Date</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity">Action</th>
                       <th>
-                        <div class="page-title-actions" style="display: inline-block; margin: -90px;">
+                        <div class="page-title-actions" style="display: inline-block; margin: -130px;">
                         <a href="{{route('create_student') }}" class="btn bg-gradient-info w-100 mb-0 toast-btn btn2-zoom">
                             <span class="btn-icon-wrapper pr-2 opacity-7">
                                 <i class="fa fa-plus fa-w-20"></i>
@@ -90,6 +90,11 @@
                                     <i class="fa fa-edit fa-w-20"></i>
                                       Edit
                                   </a>
+                                 <a style="width:110px" href="{{ route('show_progress', $student->id) }}" class="btn bg-gradient-success btn-sm btn1-zoom">
+                                    <i class="fa fa-bar-chart fa-w-20"></i>
+                                    Progress
+                                  </a>
+
                                   <!-- Delete button -->
                                   <form action="{{route('delete_student', $student->id)}}" method="POST" style="display:inline-block;">
                                       @csrf

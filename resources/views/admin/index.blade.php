@@ -46,6 +46,14 @@
       transition: transform 0.8s ease;
       
     }
+    .top1{
+            border-radius: 2rem;
+            background-color: rgb(24 29 56);
+            width: 100%;
+            color: white;
+            margin: 10px 0px ;
+            padding: 10px 20px;
+    }
     .table .type1.hovered {
       transform: scale(1.15) translateX(30px);
       transition: transform 0.9s ease;
@@ -83,7 +91,7 @@
       cursor: default;
     }
     .zoom:hover{
-      transform: scale(1.15) translateX(70px); 
+      transform: scale(1.15) translateX(80px); 
     }
     .btn1-zoom {
         transition: transform 0.6s ease; 
@@ -94,6 +102,7 @@
     }
     .btn2-zoom{
       transition: transform 0.6s ease;
+
     }
     .btn2-zoom:hover {
       transform: scale(1.12); 

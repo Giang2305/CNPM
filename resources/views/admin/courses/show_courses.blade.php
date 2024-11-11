@@ -29,7 +29,7 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity type5 text-zoom">Action</th>
                       <th>
                         <div class="page-title-actions" style="display: inline-block; margin: 0;">
-                        <a href="{{route('create_courses') }}" class="btn bg-gradient-info w-100 mb-0 toast-btn btn2-zoom">
+                        <a href="{{route('create_courses') }}" class="btn bg-gradient-info w-120 mb-0 toast-btn btn2-zoom">
                             <span class="btn-icon-wrapper pr-2 opacity-7">
                                 <i class="fa fa-plus fa-w-20"></i>
                             </span>
@@ -78,7 +78,7 @@
                                   <a style="width:110px" href="{{route('edit_courses', $courses->id)}}" class="btn bg-gradient-warning btn-sm btn1-zoom">
                                     <i class="fa fa-edit fa-w-20"></i>
                                       Edit
-                                  </a>
+                                  </a>                        
                                   <!-- Delete button -->
                                   <form action="{{route('delete_courses', $courses->id) }}" method="POST" style="display:inline-block;">
                                       @csrf

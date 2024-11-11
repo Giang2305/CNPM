@@ -25,7 +25,7 @@
     <div class="card shadow-sm p-4">
         <h2 class="mb-4 text-center">Chỉnh sửa thông tin bài giảng</h2>
 
-        <form action="{{ route('update_lecture', $lecture->id) }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form action="{{ route('update_lecture', $lecture->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -151,7 +151,7 @@
 </div>
 <script>
 
-   function toggleFields() {
+ function toggleFields() {
     const type = document.getElementById('type').value;
 
     const videoUrlSection = document.getElementById('video-url');
@@ -164,14 +164,13 @@
     fileUploadSection.style.display = type === 'File' ? 'block' : 'none';
 
     // Điều chỉnh required cho các input bên trong từng section
-    document.getElementById('content_url').required = 
-        type === 'Video' || type === 'File';
-    document.getElementById('duration').required = type === 'Video';
+    document.getElementById('video_url').required = type === 'Video';
+    document.getElementById('content_url').required = type === 'File';
     document.getElementById('text_content').required = type === 'Text';
-    }
+}
 
-    // Gọi hàm này khi load trang để hiển thị đúng nội dung theo type ban đầu
-    document.addEventListener('DOMContentLoaded', toggleFields);
+// Gọi hàm này khi load trang để hiển thị đúng nội dung theo type ban đầu
+document.addEventListener('DOMContentLoaded', toggleFields);
 </script>
 
 @endsection

@@ -14,7 +14,25 @@
                 <span><i class="fas fa-certificate"></i> Chứng chỉ</span>
                 <span><i class="fas fa-star"></i> 4.3 (184 đánh giá)</span>
             </div>
-            <a href="#" class="btn btn-success mt-3 button"><i class="fa-solid fa-right-to-bracket"></i> Đăng ký chỉ với {{$course->Price}}</a>
+
+            @if(!$isRegistered)
+                <form method="POST" action="{{ url('courses/' . $course->id . '/register') }}">
+                    @csrf <!-- Thêm CSRF token -->
+                    <button type="submit" class="btn btn-success mt-3 button">
+                        <i class="fa-solid fa-right-to-bracket"></i> Đăng ký chỉ với {{ $course->Price }}
+                    </button>
+                </form>
+            @endif
+
+
+            <!-- Hiển thị tiến độ -->
+            <div class="progress-container">
+                <h2>Tiến độ khóa học</h2>
+                <p>Tiến độ hiện tại của bạn trong khóa học: {{ round($progress, 2) }}%</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: {{ round($progress, 2) }}%;"></div>
+                </div>
+            </div>
         </div>
         <div>
             <img style="border-radius: 2rem;" src="{{asset('public/images/' . $course->Image) }}" alt="Thư viện chuẩn C++" class="img-fluid " >
@@ -48,12 +66,19 @@
                         <ul class="list-group">
                             @foreach ($chapter->lectures as $lecture)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                	<a href="{{ route('lectures.show', $lecture->id) }}" class="named">
-                                		 Bài {{ $lecture->lecture_number }}: {{ $lecture->title }}
-	                                    <span class="badge badge-primary badge-pill">
-	                                        {{ $lecture->duration }} phút
-	                                    </span>
-                                	</a>                                   
+                                    @if ($isRegistered)
+                                        <!-- Hiển thị link khi đã đăng ký -->
+                                        <a href="{{ route('lectures.show', $lecture->id) }}" class="named">
+                                            Bài {{ $lecture->lecture_number }}: {{ $lecture->title }}
+                                            <span class="badge badge-primary badge-pill">
+                                                {{ $lecture->duration }} phút
+                                            </span>
+                                        </a>
+                                    @else
+                                        <!-- Thông báo yêu cầu đăng ký -->
+                                        <span class="named">Bài {{ $lecture->lecture_number }}: {{ $lecture->title }}</span>
+                                        <span class="badge badge-secondary badge-pill">Đăng ký để truy cập</span>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>
@@ -63,4 +88,6 @@
         @endforeach
     </div>
 </div>
+
+
 @endsection('content')

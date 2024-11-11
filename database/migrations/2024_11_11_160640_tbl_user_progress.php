@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('tbl_user_progress', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('users_id')->constrained('tbl_user')->onDelete('cascade'); // Tham chieesu bảng tbl_user
-            $table->foreignId('lectures_id')->constrained('tbl_lectures')->onDelete('cascade'); //bảng lectures
-            $table->float('progress');
+            $table->foreignId('users_id')->constrained('tbl_user')->onDelete('cascade'); 
+            $table->foreignId('lectures_id')->constrained('tbl_lectures')->onDelete('cascade'); 
+            $table->foreignId('courses_id')->constrained('tbl_courses')->onDelete('cascade');
+            $table->foreignId('exercises_id')->nullable()->constrained('tbl_exercises')->onDelete('cascade'); 
+            $table->float('progress'); 
             $table->enum('status', ['Completed', 'Incomplete']); 
-            $table->timestamp('completed_at')->nullable();    // Thời điểm hoàn thành
             $table->timestamps();
         });
     }

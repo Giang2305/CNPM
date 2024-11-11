@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('Teacher')->nullable();
             $table->string('Image')->nullable();
             $table->string('Price')->nullable();
+            $table->string('progress')->nullable()->default(0);
             $table->string('is_active')->nullable();
             $table->timestamps();
         });

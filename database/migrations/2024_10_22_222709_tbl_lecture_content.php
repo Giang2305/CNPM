@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('tbl_lecture_content', function (Blueprint $table) {
             $table->id();
+            
             $table->timestamps();
         });
     }

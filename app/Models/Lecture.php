@@ -16,4 +16,8 @@ class Lecture extends Model
     public function course() {
         return $this->belongsTo(Course::class, 'course_id');  // Chương thuộc về 1 khóa học
     }
+    public function exercises()
+    {
+        return $this->hasMany(Exercises::class, 'lecture_id', 'id');
+    }
 }
