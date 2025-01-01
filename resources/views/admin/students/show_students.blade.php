@@ -9,7 +9,7 @@
               <div class="d-flex bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Students table</h6>
                 <label for="text" class="label-search">
-                  <i class="fa fa-search icon-search"></i>
+                  <i class="bi bi-search icon-search"></i>
                   <input type="search" id="text" class="input-search" placeholder="Search..." oninput="onSearch()">       
                 </label>
               </div>       

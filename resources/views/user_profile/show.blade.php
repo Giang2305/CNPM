@@ -76,25 +76,28 @@
         <h2 class="text-center mb-4" style="border: 2px solid red; border-radius: 3rem; margin: 0px 180px; padding: 5px 0px">Tiến độ học tập</h2>
         <div class="card mx-auto" style="max-width: 900px;border: none; border-radius: 3rem; padding: 20px 10px;">
             <label for="profile_image" class="form-label" style="padding: 10px 0px; text-align: center; font-size: 30px; color: black;"><strong>Khoá học đã tham gia</strong></label> 
-            @foreach($course as $course)
-            <div class="container mb-4 course_profile" >
+            @foreach($courseProgress as $progress)
+            <div class="container progressprofile">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="mb-3 name">Khoá học {{$course->Name}} </h1>
-                        <p class="lead">
-                            {{$course->Description}}
-                        </p>
-                        <div class="d-flex gap-3">
-                            <span><i class="fas fa-clock"></i> 20 giờ</span>
-                            <span><i class="fas fa-list"></i> {{ $course->chapters->sum(fn($chapter) => $chapter->lectures->count()) }} bài giảng</span>
-                            <span><i class="fas fa-user"></i> Giảng viên: {{$course->Teacher}}</span>
-                            <span><i class="fas fa-certificate"></i> Chứng chỉ</span>
-                            <span><i class="fas fa-star"></i> 4.3 (184 đánh giá)</span>
+                    <div>            
+                        <div class="course-progress mb-4">  
+                            <h3 style="color: white;">{{ $progress['course']->Name }}</h3>
+                            <p class="lead">{{ $progress['course']->Description }}</p>
+                            <div class="d-flex gap-3">
+                                <span><i class="fas fa-clock"></i> 20 giờ</span>
+                                <span><i class="fas fa-list"></i> {{ $progress['course']->chapters->sum(fn($chapter) => $chapter->lectures->count()) }} bài giảng</span>
+                                <span><i class="fas fa-user"></i> Giảng viên: {{$progress['course']->teacher}}</span>
+                                <span><i class="fas fa-certificate"></i> Chứng chỉ</span>
+                                <span><i class="fas fa-star"></i> 4.3 (184 đánh giá)</span>
+                            </div>
+                            <p class="mt-3">Tiến độ khóa học: {{ $progress['progress'] }}%</p>
+                            <div class="progress-bar" style="height: 30px; background-color: #e0e0e0; border-radius: 1rem;">
+                                <div class="progress" style="width: {{ $progress['progress'] }}%; background-color: #4caf50; height: 100%;"></div>
+                            </div>
                         </div>
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%; margin-bottom: 10px ; border-radius: 1rem;">Tiến độ học</div>
                     </div>
                     <div>
-                        <img style="border-radius: 2rem;" src="{{asset('public/images/' . $course->Image) }}" alt="Thư viện chuẩn C++" class="img-fluid " >
+                        <img style="border-radius: 2rem;" src="{{asset('public/images/' . $progress['course']->Image) }}" alt="Course Image" class="img-fluid">      
                     </div>
                 </div>
             </div>

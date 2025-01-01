@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\UserProgress;
 use App\Models\Lecture;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -102,7 +103,8 @@ class CoursesController extends Controller
     public function show_create_courses()
     {
         $userId = session('user_id');
-        return view('admin.courses.create_courses');
+        $teacher = Teacher::all();
+        return view('admin.courses.create_courses', compact('teacher'));
     }
     public function create_courses(Request $request)
     {
@@ -124,16 +126,17 @@ class CoursesController extends Controller
 
         DB::table('tbl_courses')->insert($data);
 
-        return redirect()->route('all_courses')->with('success', 'Category created successfully.');
+        return redirect()->route('all_courses')->with('success', 'Course created successfully.');
     }
 
     //Edit
     public function show_edit_courses($id){
+        $teacher = Teacher::all();
         $course = DB::table('tbl_courses')->where('id', $id)->first();
         if (!$course) {
             return redirect()->route('all_courses')->with('error', 'Courses not found.');
         }
-        return view('admin.courses.edit_courses', compact('course'));
+        return view('admin.courses.edit_courses', compact('course', 'teacher'));
     }
     public function edit_courses(Request $request, $id){ 
         $data = [

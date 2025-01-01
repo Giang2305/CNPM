@@ -10,7 +10,7 @@
                 <h6 class="text-white text-capitalize ps-3">Teacher table</h6>
                 <label for="text" class="label-search">
                   <!--<img src="{{asset('public/images/search-vector.jpg')}}" class="img-search">-->
-                  <i class="fa fa-search icon-search"></i>
+                  <i class="bi bi-search icon-search"></i>
                   <input type="search" id="text" class="input-search" placeholder="Search..." oninput="onSearch()">       
                 </label>
               </div>       

@@ -32,6 +32,7 @@ class LecturesController extends Controller
         if ($userProgress) {
             // Nếu đã có thông tin tiến độ, cập nhật trạng thái là "Completed"
             $userProgress->status = 'Completed';
+            $userProgress->progress = 100;
             $userProgress->save();
         } else {
             // Nếu chưa có thông tin tiến độ, tạo mới một bản ghi với trạng thái "Completed"

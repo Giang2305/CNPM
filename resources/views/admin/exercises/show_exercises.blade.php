@@ -9,7 +9,7 @@
                         <div class="d-flex bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                             <h6 class="text-white text-capitalize ps-3">Exercises Table</h6>
                             <label for="text" class="label-search">
-                                <i class="fa fa-search icon-search"></i>
+                                <i class="bi bi-search icon-search"></i>
                                 <input type="search" id="text" class="input-search" placeholder="Search..." oninput="onSearch()">       
                             </label>
                         </div>       
@@ -75,14 +75,18 @@
                                                 <div class="products-single fix">
                                                     <div class="mt-2">
                                                         <!-- Edit button -->
-                                                        <a style="width:110px" href="{{ route('edit_exercise', $exercise->id) }}" class="btn bg-gradient-warning btn-sm btn1-zoom">
+                                                        <a style="width:90px" href="{{ route('edit_exercise', $exercise->id) }}" class="btn bg-gradient-warning btn-sm btn1-zoom">
                                                             <i class="fa fa-edit fa-w-20"></i> Edit
+                                                        </a>
+                                                        <a style="width:90px" href="{{route('exercise.submissions', $exercise->id)}}" class="btn bg-gradient-success btn-sm btn1-zoom">
+                                                            <i class="fa fa-edit fa-w-20"></i>
+                                                              Score
                                                         </a>
                                                         <!-- Delete button -->
                                                         <form action="{{ route('delete_exercise', $exercise->id) }}" method="POST" style="display:inline-block;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button style="width:110px" type="submit" class="btn btn-danger btn-sm btn2-zoom" onclick="return confirm('Are you sure you want to delete this exercise?');">
+                                                            <button style="width:90px" type="submit" class="btn btn-danger btn-sm btn2-zoom" onclick="return confirm('Are you sure you want to delete this exercise?');">
                                                                 <i class="fa fa-trash fa-w-20"></i> Delete
                                                             </button>
                                                         </form>

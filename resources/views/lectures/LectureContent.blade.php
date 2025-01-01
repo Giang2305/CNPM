@@ -23,6 +23,21 @@
         </div>
     </div>
 </div>
+<div class="container mt-4">
+    <div class="d-flex justify-content-center mb-3">
+        <!-- Nút chuyển đổi Bài giảng -->
+        <a href="{{ route('lectures.show', $lecture->id) }}" 
+           class="btn {{ request()->routeIs('lectures.show') ? 'btn-primary' : 'btn-outline-primary' }} mx-2">
+            <i class="fas fa-book"></i> Bài giảng
+        </a>
+        
+        <!-- Nút chuyển đổi Bài tập -->
+        <a href="{{ route('exercises.show', $lecture->id) }}" 
+           class="btn {{ request()->routeIs('exercises.show') ? 'btn-primary' : 'btn-outline-primary' }} mx-2">
+            <i class="fas fa-edit"></i> Bài tập
+        </a>
+    </div>
+</div>
 <div class="container-fluid p-3">
     <div class="row">  
          <div class="col-lg-9"  >

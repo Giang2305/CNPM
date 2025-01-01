@@ -46,7 +46,13 @@
             <!-- Tên giáo viên -->
             <div class="form-group mb-3">
                 <label for="teacher" class="form-label">Giáo viên</label>
-                <input type="text" class="form-control" id="teacher" name="teacher" placeholder="Nhập tên giáo viên" required>
+                <select class="form-select" id="teacher" name="teacher" required>
+                    <option value="">Chọn giảng viên</option>
+                    @foreach($teacher as $teacher)
+                    <option value="{{ $teacher->name }}">{{ $teacher->name}}</option>
+                     @endforeach
+                </select>
+                
             </div>
 
             <!-- Hình ảnh khoá học -->
@@ -93,5 +99,80 @@
         </form>
     </div>
 </div>
+<!-- <script>
+    // Hàm để định dạng giá tiền theo VNĐ
+    function formatCurrencyVND(value) {
+        if (!value) return '';
+        // Xóa ký tự không phải số
+        value = value.toString().replace(/[^0-9]/g, '');
 
+        // Định dạng số với dấu chấm
+        return new Intl.NumberFormat('vi-VN').format(value) + ' đ';
+    }
+
+    // Hàm để loại bỏ định dạng trước khi chỉnh sửa
+    function getRawValue(value) {
+        return value.toString().replace(/[^0-9]/g, '');
+    }
+
+    // Tham chiếu đến ô input
+    const priceInput = document.getElementById('price');
+
+    // Sự kiện khi người dùng nhập dữ liệu
+    priceInput.addEventListener('input', function (e) {
+        // Giữ vị trí con trỏ trước khi thay đổi
+        const cursorPosition = this.selectionStart;
+
+        // Lấy giá trị gốc chỉ chứa số
+        const rawValue = getRawValue(this.value);
+
+        // Hiển thị giá trị chưa định dạng để người dùng dễ chỉnh sửa
+        this.value = rawValue;
+
+        // Đặt lại vị trí con trỏ
+        this.setSelectionRange(cursorPosition, cursorPosition);
+    });
+
+    // Sự kiện khi người dùng rời khỏi ô input
+    priceInput.addEventListener('blur', function (e) {
+        const rawValue = getRawValue(this.value);
+        this.value = formatCurrencyVND(rawValue);
+    });
+
+    // Sự kiện khi người dùng focus vào ô input (xóa định dạng để dễ chỉnh sửa)
+    priceInput.addEventListener('focus', function (e) {
+        const rawValue = getRawValue(this.value);
+        this.value = rawValue;
+    });
+</script>
+ -->
+<script>
+    // Hàm để định dạng giá tiền theo VNĐ
+    function formatCurrencyVND(value) {
+        if (!value) return '';
+        // Xóa ký tự không phải số
+        value = value.toString().replace(/[^0-9]/g, '');
+
+        // Định dạng số với dấu chấm
+        return new Intl.NumberFormat('vi-VN').format(value) + 'đ';
+    }
+
+    // Sự kiện khi người dùng nhập dữ liệu
+    document.getElementById('price').addEventListener('input', function (e) {
+        const rawValue = this.value.replace(/\D/g, ''); // Lấy giá trị chỉ chứa số
+        this.value = formatCurrencyVND(rawValue);
+    });
+
+    // Sự kiện khi người dùng rời khỏi ô input
+    document.getElementById('price').addEventListener('blur', function (e) {
+        const rawValue = this.value.replace(/\D/g, ''); // Lấy giá trị chỉ chứa số
+        this.value = formatCurrencyVND(rawValue);
+    });
+
+    // Sự kiện khi người dùng focus vào ô input (xóa định dạng để dễ chỉnh sửa)
+    document.getElementById('price').addEventListener('focus', function (e) {
+        const rawValue = this.value.replace(/\D/g, ''); // Lấy giá trị chỉ chứa số
+        this.value = rawValue;
+    });
+</script>
 @endsection

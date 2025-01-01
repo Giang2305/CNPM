@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     protected $table = 'tbl_user';
 
-    protected $fillable = ['name', 'username', 'password', 'role', 'linked_id'];
+    protected $fillable = ['name', 'username', 'password', 'role', 'status', 'linked_id'];
 
     public function linked()
     {

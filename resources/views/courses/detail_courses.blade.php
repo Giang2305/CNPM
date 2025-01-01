@@ -1,5 +1,17 @@
 @extends('welcome')
 @section('content')
+@if(session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 <div class="container mt-5 top1">
     <div class="d-flex justify-content-between align-items-center">
         <div>
@@ -21,13 +33,16 @@
                     <button type="submit" class="btn btn-success mt-3 button">
                         <i class="fa-solid fa-right-to-bracket"></i> Đăng ký chỉ với {{ $course->Price }}
                     </button>
+                    <button type="button" class="btn btn-warning mt-3" style="border-radius: 2rem;">
+                        <i class='fas fa-cart-plus' style='font-size:48px;'></i>
+                    </button>
                 </form>
             @endif
 
 
             <!-- Hiển thị tiến độ -->
-            <div class="progress-container">
-                <h2>Tiến độ khóa học</h2>
+            <div class="progress-container mt-3">
+                <h2 style="color: white;">Tiến độ khóa học</h2>
                 <p>Tiến độ hiện tại của bạn trong khóa học: {{ round($progress, 2) }}%</p>
                 <div class="progress-bar">
                     <div class="progress" style="width: {{ round($progress, 2) }}%;"></div>
@@ -43,7 +58,7 @@
 
 <div class="container">
     <h1 class="named">Nội dung khóa học</h1>
-    <p>{{ count($course->chapters) }} Chương • {{ $course->chapters->sum(fn($chapter) => $chapter->lectures->count()) }} bài giảng</p>
+    <p>{{ count($course->chapters) }} Chương • {{ $course->chapters->sum(fn($chapter) => $chapter->lectures->count()) }} bài giảng • {{ $course->chapters->sum(fn($chapter) => $chapter->lectures->sum(fn($lecture) => $lecture->exercises->count())) }} bài tập</p>
     <div class="accordion" id="courseAccordion">
         @foreach ($course->chapters as $chapter)
             <div class="card">
@@ -53,11 +68,11 @@
                             data-target="#collapse-{{ $chapter->id }}" 
                             aria-expanded="{{ $loop->first ? 'true' : 'false' }}" 
                             aria-controls="collapse-{{ $chapter->id }}">
-                            {{ $chapter->title }} ({{ $chapter->lectures->count() }} bài giảng)
+                            {{ $chapter->title }} ({{ $chapter->lectures->count() }} bài giảng) 
                         </button>
                     </h5>
                 </div>
-
+                
                 <div id="collapse-{{ $chapter->id }}" 
                     class="collapse {{ $loop->first ? 'show' : '' }}" 
                     aria-labelledby="heading-{{ $chapter->id }}" 

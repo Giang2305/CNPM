@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lecture;
 use App\Models\Exercises;
+use App\Models\Submission;
 use DB;
 
 class ExercisesController extends Controller
 {
 //User View
-    public function show($id){
-        $exercise = Exercises::findOrFail($id);
+    public function show($lectureId)
+    {
+        $userId = session('user_id');
+        $lecture = Lecture::with('exercises')->findOrFail($lectureId);
         $chapter = $lecture->chapter;
         $course = $lecture->chapter->course;
-        return view('lectures.LectureContent', compact('lecture','course','chapter')); 
-    }
+        // Giả sử mỗi bài giảng có một bài tập liên kết với nó.
+        // Nếu có nhiều bài tập, bạn có thể lấy danh sách bài tập tương ứng.
+        $exercises = $lecture->exercises;
+        $submission = Submission::where('users_id', $userId)
+                            ->whereIn('exercises_id', $exercises->pluck('id')) // Lấy các bài nộp của user cho các bài tập trong bài giảng này
+                            ->get();
 
+        return view('exercises.ExerciseContent', compact('lecture', 'exercises', 'course', 'submission'));
+    }
     public function completeExercise($exerciseId)
     {
         $userId = auth()->id();

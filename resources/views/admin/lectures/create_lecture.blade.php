@@ -66,7 +66,6 @@
                 </div>
             </div>
 
-
             <div class="row mb-3" id="video-url" style="display: none;">
                 <div class="col-md-6">
                     <label for="video_url" class="form-label">Video URL</label>

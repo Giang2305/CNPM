@@ -59,8 +59,16 @@
             border-radius: 1rem;
             background-color: rgb(24 29 56);
             color: white;
-            margin: 30px 100px 30px 100px;
+            margin: 30px auto;
             padding: 30px 40px;
+        }
+
+        .progressprofile{
+            border-radius: 1rem;
+            background-color: rgb(24 29 56);
+            color: white;
+            margin: 10px 10px 10px 5px;
+            padding: 10px 10px;
         }
 
         .name{
@@ -221,6 +229,56 @@
             </div>
            
             <div class="button-container">
+                <li class="nav-item dropdown pe-2 d-flex align-items-left">
+                    <a href="javascript:;" class="nav-link text-body p-0" id="dropdownProfile" data-bs-toggle="dropdown" aria-expanded="false">
+                        @if (session('user_id'))
+                            <!-- Khi đã đăng nhập -->
+                            <div class="user-info">
+                                <img src="{{ asset('public/images/' . session('profile_image')) }}" class="user-avatar col-lg-3" style="width: 50px; mix-blend-mode: multiply;">
+                                <span class="user-name col-md-6" style="color: black;">{{ session('name') }}</span>
+                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end me-sm-n4" aria-labelledby="dropdownProfile" style="margin: 10px 0px 0px -40px; width: 200px;">
+                                <li class="mb-2">
+                                    <a class="dropdown-item border-radius-md" href="{{ route('student.profile', ['id' => session('user_id')]) }}">   
+                                        <div class="d-flex py-1">
+                                            <div class="my-auto">
+                                                <i class='fas fa-address-card' style='font-size:24px;padding-right: 10px;'></i>
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-left">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="font-weight-bold">Profile</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a class="dropdown-item border-radius-md" href="{{ URL::to('/login') }}" style="text-decoration: none;">
+                                        <div class="d-flex py-1">
+                                            <div class="my-auto">
+                                                <i class='fa-solid fa-arrow-right-from-bracket' style='font-size:24px;padding-right: 10px;'></i>
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-left">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="font-weight-bold">Logout</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        @else
+                            <!-- Khi chưa đăng nhập -->
+                            <button class="btn-signup">
+                                <a href="{{ URL::to('/register') }}" style="text-decoration: none;">Sign Up</a>
+                            </button>
+                            <button class="btn-login">
+                                <a href="{{ URL::to('/login') }}" style="text-decoration: none;">Log in</a>
+                            </button>
+                        @endif
+                    </a>
+                </li>
+            </div>
+
+            <!-- <div class="button-container">
                 <li class="nav-item dropdown pe-2 d-flex align-items-left" >
                   <a href="javascript:;" class="nav-link text-body p-0" id="dropdownProfile" data-bs-toggle="dropdown" aria-expanded="false">
                     @if (session('user_id'))
@@ -264,8 +322,7 @@
                   </a>
                  
                 </li>
-
-            </div>
+            </div> -->
         </div>
     </nav>
     <!-- Navbar End -->

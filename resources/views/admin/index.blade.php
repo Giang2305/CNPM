@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="{{asset('public/BackEnd/assets/img/apple-icon.png')}}">
   <link rel="icon" type="image/png" href="{{asset('public/BackEnd/assets/img/favicon.png')}}">
   <title>
-    Dashboard Manager Elearning
+      Quản lý khoá học trực tuyến
   </title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!--     Fonts and icons     -->
@@ -51,7 +51,7 @@
             background-color: rgb(24 29 56);
             width: 100%;
             color: white;
-            margin: 10px 0px ;
+            margin: 10px auto ;
             padding: 10px 20px;
     }
     .table .type1.hovered {
@@ -121,7 +121,7 @@
       position: absolute;
       top: 50%;
       left: 10px; 
-      transform: translateY(-15px) translateX(1024px); 
+      transform: translateY(-21px) translateX(1023px); 
       font-size: 25px;
       color: #000; 
       pointer-events: none; 
@@ -162,7 +162,7 @@
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
         <img src="{{asset('public/BackEnd/assets/img/logo-ct.png')}}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Manager Elearning</span>
+        <span class="ms-1 font-weight-bold text-white">Quản lý khoá học trực tuyến</span>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -217,11 +217,11 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{ Request::is('admin/#') ? 'active bg-gradient-primary' : '' }}" href="{{URL::to('#')}}">
+          <a class="nav-link text-white {{ Request::is('admin/show_account') ? 'active bg-gradient-primary' : '' }}" href="{{URL::to('admin/show_account')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
-            <span class="nav-link-text ms-1">Tables</span>
+            <span class="nav-link-text ms-1">Account</span>
           </a>
         </li>
         

@@ -50,7 +50,7 @@ class TeacherController extends Controller
 
         DB::table('tbl_teacher')->insert($data);
 
-        return redirect()->route('all_teacher')->with('success', 'Category created successfully.');
+        return redirect()->route('all_teacher')->with('success', 'Teacher created successfully.');
     }
 
     //Edit

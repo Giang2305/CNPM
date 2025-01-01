@@ -13,12 +13,76 @@ use DB;
 class StudentsController extends Controller
 {
     //User View
-    public function profile($id){
-        $course = Course::all();
-        $linkedId = session('linked_id');
-        $student = Students::findOrFail($linkedId);
-        return view('user_profile.show', compact('student','course'));
+    public function profile($id) {
+    $course = Course::all();
+    $linkedId = session('linked_id');
+    
+    // Lấy thông tin học viên đang đăng nhập dựa trên linked_id
+    $student = Students::findOrFail($linkedId);
+    
+    // Lấy user liên quan từ thông tin học viên
+    $user = $student->user; // Đảm bảo rằng $student có liên kết với user
+    
+    // Lấy tất cả các khóa học mà học viên đã đăng ký (dựa trên user_id)
+    $userProgress = UserProgress::where('users_id', $user->id)
+                                ->with('course.chapters.lectures.exercises') // Liên kết với khóa học, chương, bài giảng và bài tập
+                                ->get();
+
+    $courseProgress = [];
+    $processedCourses = [];
+
+    foreach ($userProgress as $progress) {
+        $course = $progress->course;
+
+        // Kiểm tra xem khóa học này đã được tính chưa
+        if (in_array($course->id, $processedCourses)) {
+            continue;
+        }
+
+        // Đánh dấu khóa học đã được tính
+        $processedCourses[] = $course->id;
+
+        // Tính toán số bài giảng và bài tập đã hoàn thành trong khóa học
+        $completedLectures = UserProgress::where('users_id', $user->id)
+                                         ->where('courses_id', $course->id)
+                                         ->whereNotNull('lectures_id') // chỉ tính các bài giảng
+                                         ->where('status', 'Completed') // Đảm bảo chỉ tính các bài giảng đã hoàn thành
+                                         ->count();
+
+        $completedExercises = UserProgress::where('users_id', $user->id)
+                                          ->where('courses_id', $course->id)
+                                          ->whereNotNull('exercises_id') // chỉ tính các bài tập
+                                          ->where('status', 'Completed') // Đảm bảo chỉ tính các bài tập đã hoàn thành
+                                          ->count();
+
+        // Tính tổng số bài giảng và bài tập trong khóa học
+        $totalLectures = $course->chapters->sum(fn($chapter) => $chapter->lectures->count());
+        $totalExercises = $course->chapters->sum(fn($chapter) => $chapter->lectures->sum(fn($lecture) => $lecture->exercises->count()));
+
+        // Tổng số bài giảng và bài tập
+        $totalItems = $totalLectures + $totalExercises;
+
+        // Tính tiến độ (bài giảng và bài tập đã hoàn thành)
+        $completedProgress = $completedLectures + $completedExercises;
+        $progressPercentage = $totalItems > 0 ? ($completedProgress / $totalItems) * 100 : 0;
+
+        $courseProgress[] = [
+            'course' => $course,
+            'progress' => round($progressPercentage, 2),  // Làm tròn phần trăm tiến độ
+        ];
     }
+
+    // Truyền dữ liệu khóa học và học viên đến view
+    return view('user_profile.show', compact('student', 'courseProgress'));
+}
+
+    // public function profile($id){
+    //     $course = Course::all();
+    //     $linkedId = session('linked_id');
+    //     $student = Students::findOrFail($linkedId);
+
+    //     return view('user_profile.show', compact('student','course'));
+    // }
 
     public function update_profile(Request $request, $id){
         $student = Students::findOrFail($id);

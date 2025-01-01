@@ -11,6 +11,8 @@ use App\Http\Controllers\LecturesController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ExercisesController;
+use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,14 +40,16 @@ Route::get('/courses', [CoursesController::class, 'index']);
 Route::get('/courses/{id}', [CoursesController::class, 'detail']);
 Route::post('/courses/{id}/register', [CoursesController::class, 'registerCourse'])->name('courses.register');
 
-//Lecture Content:
+//Lecture + Exercise Content:
 Route::get('/lecture/{id}', [LecturesController::class, 'show'])->name('lectures.show');
+Route::get('/exercises/{lecture}', [ExercisesController::class, 'show'])->name('exercises.show');
 
-// routes/web.php
+//Exercise Submit:
+Route::post('/exercise/{exerciseId}/submit', [SubmissionController::class, 'submitExercise'])->name('exercise.submit');
+
+
 Route::post('/lectures/{id}/complete', [LecturesController::class, 'markAsCompleted'])->name('lectures.complete');
-
 Route::post('/exercise/{exerciseId}/complete', [UserProgressController::class, 'markExerciseAsCompleted']);
-
 
 //Admin Dashboard:
     Route::post('admin/login', [LoginController::class, 'login'])->name('admin.login'); 
@@ -91,6 +95,19 @@ Route::post('/exercise/{exerciseId}/complete', [UserProgressController::class, '
         Route::delete('/admin/show_exercises/delete/{id}', [ExercisesController::class, 'delete_exercise'])->name('delete_exercise');
     //Progress
         Route::get('student/{id}/progress', [StudentsController::class, 'showStudentProgress'])->name('show_progress');
+
+    //Submission
+        Route::get('/exercise/{exerciseId}/submissions', [SubmissionController::class, 'showSubmissions'])->name('exercise.submissions');
+
+        Route::post('/submission/{submissionId}/grade', [SubmissionController::class, 'gradeSubmission'])->name('submission.grade');
+        
+    //Account Route
+        Route::get('/admin/show_account', [UserController::class, 'all_account'])-> name('all_account');
+        Route::get('/admin/account/create', [UserController::class, 'show_create_account'])->name('create_account');
+        Route::post('/admin/account/create/save', [UserController::class, 'create_account'])->name('save_account');
+        Route::get('/admin/account/edit/{id}', [UserController::class, 'show_edit_account'])->name('edit_account');
+        Route::post('/admin/account/edit/save/{id}', [UserController::class, 'edit_account'])->name('update_account');
+        Route::delete('/admin/show_account/delete/{id}', [UserController::class, 'delete_account'])->name('delete_account');
 
 /*Route::prefix('Admin')->middleware(['auth', 'auth.Admin'])->group(function(){
     //Courses Router

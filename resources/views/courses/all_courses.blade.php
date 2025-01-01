@@ -15,7 +15,7 @@
                             <img class="img-fluid" src="{{ asset('public/images/' . $courses->Image) }}" alt="" style="object-fit: cover; width: 100%; height: 200px;">
                             <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
                                 <a href=" {{URL::to('/courses/'. $courses->id)}}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
+                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Add to cart</a>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">

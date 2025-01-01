@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('role', ['Teacher', 'Student', 'Admin']); // Vai trò
             $table->unsignedBigInteger('linked_id')->nullable(); // ID liên kết đến teacher hoặc student
             $table->string('linked_type')->nullable(); // Loại đối tượng liên kết (tbl_teacher hoặc tbl_students)
+            $table->enum('status', ['Active', 'Inactive'])->nullable();
             $table->timestamps();
             $table->index(['linked_id', 'linked_type']);
         });
